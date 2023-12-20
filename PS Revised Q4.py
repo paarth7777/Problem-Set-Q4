@@ -7,7 +7,7 @@ m = 1.0  # Mass of the particle
 omega = 1.0  # Frequency of the oscillator
 hbar = 1.0  # Reduced Planck's constant
 L = 5.0  # Length of the box
-N = 6  # Number of basis functions
+N = 5  # Number of basis functions
 
 
 def V(x):
@@ -44,5 +44,13 @@ eigenvalues, eigenvectors = eigh(H, S)
 eigenvalues = eigenvalues[:2]
 eigenvectors = eigenvectors[:,:2]
 
-print(eigenvalues)
-print(eigenvectors)
+
+def construct_eigenfunction(eigenvector):
+    """construct an eigenfunction corresponding to  an eigenvector"""
+    return lambda x: sum(eigenvector[n-1] * psi_n(x, n) for n in range(1, N+1))
+
+
+# Construct the two eigenfunctions
+eigenfunctions = [construct_eigenfunction(eigenvectors[:,i]) for i in range(2)]
+
+print("Eigenvalues:", eigenvalues)
